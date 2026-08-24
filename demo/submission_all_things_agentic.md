@@ -122,7 +122,7 @@ Rich
 ### "Try it out" links
 
 ```
-https://github.com/The-Crafters-Hub/the-cabinet/tree/main/agent_agentic_hackathon
+https://github.com/The-Crafters-Hub/cabinet-agentic-suite
 ```
 
 ---
@@ -192,7 +192,7 @@ The Crafters Hub
 > If private, share with testing@devpost.com and cloudhackathons@google.com
 
 ```
-https://github.com/The-Crafters-Hub/the-cabinet/tree/main/agent_agentic_hackathon
+https://github.com/The-Crafters-Hub/cabinet-agentic-suite
 ```
 
 ---
@@ -213,18 +213,12 @@ Yes
 
 ### Testing instructions (judges only, not public)
 ```
-1. Clone: https://github.com/The-Crafters-Hub/the-cabinet
-2. cd agent_agentic_hackathon
-3. pip install -r requirements.txt
-4. Copy .env.example → .env and fill in:
-   - GEMINI_API_KEY (Gemini API key)
-   - DATABASE_URL (PostgreSQL connection string)
-   - WHATSAPP_TOKEN + WHATSAPP_PHONE_NUMBER_ID (Meta Cloud API)
-   - HOSAM_ALERT_PHONE (recipient number for Sentinel alerts)
-5. python main.py test-db          → verify DB connection
-6. python main.py ingest --source "https://www.youtube.com/watch?v=c0ij507DEzU"
-7. python main.py research --question "What platform does Stuart Batty recommend for sharpening?"
-8. python main.py sentinel --days 7
+See README.md.
+1. git clone repo & cd cabinet-agentic-suite
+2. pip install -r requirements.txt
+3. cp .env.example .env & add GEMINI_API_KEY and DATABASE_URL
+4. python main.py test-db
+5. python main.py research -q "wood glue"
 ```
 
 ---
