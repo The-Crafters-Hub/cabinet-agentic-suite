@@ -1,0 +1,4 @@
+fastapi
+uvicorn
+google-genai==2.18.1
+google-cloud-storage==2.14.0

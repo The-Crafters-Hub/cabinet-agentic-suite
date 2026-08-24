@@ -1,0 +1,51 @@
+[
+  {
+    "name": "AAW (American Association of Woodturners)",
+    "base_url": "https://woodturners.org",
+    "search_url": "https://woodturners.org/?s={query}",
+    "type": "website",
+    "focus": "woodturning safety, technique, and education — definitive authority"
+  },
+  {
+    "name": "Woodcraft Magazine Blog",
+    "base_url": "https://woodcraft.com/blog",
+    "search_url": null,
+    "type": "website",
+    "focus": "general woodworking tools, techniques, and project guides"
+  },
+  {
+    "name": "Popular Woodworking",
+    "base_url": "https://popularwoodworking.com",
+    "search_url": "https://popularwoodworking.com/?s={query}",
+    "type": "website",
+    "focus": "peer-reviewed craft content, technique deep-dives"
+  },
+  {
+    "name": "The Wood Whisperer (YouTube)",
+    "base_url": "https://youtube.com/@thewoodwhisperer",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "furniture building, general woodworking, professional-level instruction"
+  },
+  {
+    "name": "Rex Krueger (YouTube)",
+    "base_url": "https://youtube.com/@RexKrueger",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "hand tools, beginner-friendly techniques, tool fundamentals"
+  },
+  {
+    "name": "Stuart Batty (YouTube)",
+    "base_url": "https://youtube.com/@stuartbattyturning",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "woodturning — world-class technique, bowl turning, spindle work"
+  },
+  {
+    "name": "TCH Knowledge Base (internal)",
+    "base_url": "postgresql://internal/knowledge_base",
+    "search_url": null,
+    "type": "internal_db",
+    "focus": "The Crafters Hub curated answers — built by Hosam, Mostafa, and Salma"
+  }
+]
