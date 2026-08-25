@@ -241,10 +241,8 @@ See README.md.
 
 ---
 
-### * Architecture diagram
 ```
-[Upload ARCHITECTURE.md rendered as PNG or export from draw.io]
-[File: agent_agentic_hackathon/ARCHITECTURE.md — convert the Mermaid diagram to PNG before uploading]
+ARCHITECTURE.png (rendered from Mermaid — file in repo root. Upload this file directly to the Devpost form.)
 ```
 
 ---
@@ -286,6 +284,6 @@ gemini-embedding-2 (3072-dim semantic embeddings)
 - [ ] README has spin-up instructions
 - [ ] Architecture diagram uploaded as PNG/PDF
 - [ ] Demo video is PUBLIC on YouTube (~3 min), shows agent working
-- [ ] Start date entered as 08-04-26
+- [ ] Start date entered as 08-18-26
 - [ ] All team members have ACCEPTED their invite (not just added)
 - [ ] Prior work disclosed in About section ✅ (XPRIZE infrastructure vs. new agents)

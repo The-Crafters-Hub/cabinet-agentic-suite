@@ -26,8 +26,8 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the full system diagram and data flow
 
 ```bash
 # 1. Clone
-git clone https://github.com/The-Crafters-Hub/the-cabinet
-cd agent_agentic_hackathon
+git clone https://github.com/The-Crafters-Hub/cabinet-agentic-suite
+cd cabinet-agentic-suite
 
 # 2. Install
 pip install -r requirements.txt
@@ -89,8 +89,10 @@ The Sentinel never auto-approves or auto-modifies any financial record. Its comp
 
 - 553 existing knowledge base entries (built over 2 years)
 - First Q&A pair stored by the Research Agent: `id=1`
-- Finance Sentinel configured and tested against production finance DB
+- DB now has 5 lesson entries in `teacher_student_knowledge` after ingesting real woodturning videos
+- Finance Sentinel configured and tested against production finance DB (487 rows)
 - All three agents importing and running cleanly on Python 3.13.7
+- GCS caching layer active — re-submitting a known video takes <2 seconds at $0 cost
 
 ## About
 

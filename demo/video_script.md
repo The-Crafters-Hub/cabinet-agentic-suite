@@ -122,7 +122,24 @@ python main.py sentinel --days 7
 
 ---
 
-### Scene 6 — Flywheel Proof + Closing (2:40–3:00)
+### Scene 5b — Cloud Run Proof (2:40–3:00)
+**[Switch to browser. Open: https://console.cloud.google.com/run — show the `tch-ingest-backend` service.]**
+
+**Narrate:**
+> "The extraction backend runs on Google Cloud Run — fully serverless. Here is the live service. You can see the request count from the video we just ingested."
+
+**[Scroll to show:]**
+- Service name: `tch-ingest-backend`
+- Region: `us-central1`
+- Status: `READY`
+- At least 1 recent request in the metrics chart
+
+**Narrate:**
+> "Every transcript extraction hits this endpoint. The result is stored in Google Cloud Storage, then pulled to the on-premise database."
+
+---
+
+### Scene 6 — Flywheel Proof + Closing (3:00–3:20)
 **[Terminal. Quick DB query.]**
 
 **Type:**
@@ -152,7 +169,7 @@ https://the-crafters-hub.com
 
 ## Post-Recording
 
-1. Upload to YouTube as **Unlisted**
+1. Upload to YouTube as **PUBLIC** (not Unlisted — Devpost will reject unlisted videos)
 2. Copy the URL
 3. Add the URL to both:
    - `demo/submission_all_things_agentic.md` (Demo Video field)

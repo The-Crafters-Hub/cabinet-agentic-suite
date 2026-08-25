@@ -49,12 +49,24 @@ def tool_trigger_cloud_extraction(source: str) -> dict:
     if not source.startswith("http"):
         return {"error": "Only YouTube URLs are supported."}
 
+    parsed = urlparse.urlparse(source)
+    video_id = urlparse.parse_qs(parsed.query).get('v', [None])[0]
+    if not video_id:
+        return {"error": "Invalid YouTube URL: missing 'v' parameter"}
+
+    # Step 0: Check GCS Cache
+    try:
+        storage_client = storage.Client()
+        bucket = storage_client.bucket("tch-knowledge-base-2026")
+        blob = bucket.blob(f"extracts/{video_id}.json")
+        if blob.exists():
+            logger.info(f"Cache hit! Skipping extraction for {video_id}.")
+            return {"gcs_uri": f"gs://tch-knowledge-base-2026/extracts/{video_id}.json"}
+    except Exception as e:
+        logger.warning(f"Cache check failed, proceeding to extraction: {e}")
+
     # Step 1: Fetch transcript locally — YouTube blocks GCP IP ranges
     try:
-        parsed = urlparse.urlparse(source)
-        video_id = urlparse.parse_qs(parsed.query).get('v', [None])[0]
-        if not video_id:
-            return {"error": "Invalid YouTube URL: missing 'v' parameter"}
         api = YouTubeTranscriptApi()
         t_list = api.list(video_id)
         t_obj = t_list.find_transcript(['en'])
