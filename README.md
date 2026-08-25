@@ -4,7 +4,7 @@
 
 ## The Problem
 
-The Crafters Hub was co-founded by Hosam Elshanawany and Mostafa Fahmy. Mostafa is the woodworking master — the cornerstone of the workshop, the person who made the craft culture real. He is currently in a severe coma and unable to teach. The workshop's physical operations are paused.
+The Crafters Hub was co-founded by Hosam Elshanawany and Mostafa Fahmy. Mostafa is the woodworking master — the cornerstone of the workshop, the person who made the craft culture real. He is currently in a severe coma and unable to teach. The workshop's physical operations are paused temporarily.
 
 The knowledge built together over years — in lessons, in conversations, in hours of answering students' WhatsApp questions — lives in The Cabinet's knowledge base. This project keeps that knowledge alive, growing, and reachable for the students who still need it.
 
