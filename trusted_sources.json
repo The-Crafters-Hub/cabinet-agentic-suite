@@ -7,6 +7,41 @@
     "focus": "woodturning safety, technique, and education — definitive authority"
   },
   {
+    "name": "AWGB (Association of Woodturners of Great Britain)",
+    "base_url": "https://awgb.co.uk",
+    "search_url": "https://awgb.co.uk/?s={query}",
+    "type": "website",
+    "focus": "woodturning guild education, UK standards, articles and project guides"
+  },
+  {
+    "name": "Berkshire Woodturners",
+    "base_url": "https://berkshirewoodturners.org.uk",
+    "search_url": null,
+    "type": "website",
+    "focus": "woodturning club knowledge, local guild expertise and tutorials"
+  },
+  {
+    "name": "Mike Waldt (YouTube)",
+    "base_url": "https://youtube.com/@MikeWaldt",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "woodturning techniques, decorative turning, detailed project walkthroughs"
+  },
+  {
+    "name": "Richard Raffan (YouTube)",
+    "base_url": "https://youtube.com/@RichardRaffanwoodturning",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "woodturning fundamentals, form and design — world-class author and turner"
+  },
+  {
+    "name": "Axminster Tools (YouTube)",
+    "base_url": "https://youtube.com/@axminster",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "tool reviews, woodturning and woodworking demonstrations, lathe setup"
+  },
+  {
     "name": "BWF (British Woodworking Federation)",
     "base_url": "https://www.bwf.org.uk",
     "search_url": "https://www.bwf.org.uk/?s={query}",
