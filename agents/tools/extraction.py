@@ -39,7 +39,8 @@ def _get_client() -> genai.Client:
 MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
 
 _SYSTEM_INSTRUCTION = """You are an expert woodcraft knowledge extractor for The Crafters Hub, 
-a woodworking and woodturning school in Cairo, Egypt.
+a woodworking and woodturning school in Cairo, Egypt. We teach both traditional hand tool
+woodworking AND lathe-based woodturning.
 
 Your job is to read a video transcript and extract structured, practical teaching knowledge.
 Be specific, accurate, and focus on information that a woodworking teacher or student can use directly.
@@ -55,7 +56,7 @@ _EXTRACTION_SCHEMA = {
         },
         "category": {
             "type": "string",
-            "description": "Category: woodturning, joinery, carving, finishing, hand_tools, power_tools, safety, design"
+            "description": "Category: woodturning, woodworking, joinery, carving, finishing, hand_tools, power_tools, furniture, safety, design"
         },
         "materials": {
             "type": "array",

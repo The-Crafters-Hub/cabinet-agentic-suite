@@ -7,11 +7,18 @@
     "focus": "woodturning safety, technique, and education — definitive authority"
   },
   {
-    "name": "Woodcraft Magazine Blog",
-    "base_url": "https://woodcraft.com/blog",
-    "search_url": null,
+    "name": "BWF (British Woodworking Federation)",
+    "base_url": "https://www.bwf.org.uk",
+    "search_url": "https://www.bwf.org.uk/?s={query}",
     "type": "website",
-    "focus": "general woodworking tools, techniques, and project guides"
+    "focus": "woodworking industry standards, safety, joinery, and professional practice"
+  },
+  {
+    "name": "AWI (Architectural Woodwork Institute)",
+    "base_url": "https://awinet.org",
+    "search_url": "https://awinet.org/?s={query}",
+    "type": "website",
+    "focus": "architectural woodwork standards, quality benchmarks, millwork"
   },
   {
     "name": "Popular Woodworking",
@@ -21,6 +28,27 @@
     "focus": "peer-reviewed craft content, technique deep-dives"
   },
   {
+    "name": "Paul Sellers (Website)",
+    "base_url": "https://paulsellers.com",
+    "search_url": "https://paulsellers.com/?s={query}",
+    "type": "website",
+    "focus": "hand tool woodworking, traditional joinery, beginner to advanced — Mostafa's favourite"
+  },
+  {
+    "name": "Woodworking Masterclasses (Paul Sellers)",
+    "base_url": "https://woodworkingmasterclasses.com",
+    "search_url": "https://woodworkingmasterclasses.com/?s={query}",
+    "type": "website",
+    "focus": "structured woodworking courses, hand tool fundamentals, project-based learning"
+  },
+  {
+    "name": "Paul Sellers (YouTube)",
+    "base_url": "https://youtube.com/@Paul.Sellers",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "traditional hand tool woodworking — Mostafa's personal favourite instructor"
+  },
+  {
     "name": "The Wood Whisperer (YouTube)",
     "base_url": "https://youtube.com/@thewoodwhisperer",
     "search_url": null,
@@ -28,18 +56,18 @@
     "focus": "furniture building, general woodworking, professional-level instruction"
   },
   {
-    "name": "Rex Krueger (YouTube)",
-    "base_url": "https://youtube.com/@RexKrueger",
-    "search_url": null,
-    "type": "youtube_channel",
-    "focus": "hand tools, beginner-friendly techniques, tool fundamentals"
-  },
-  {
     "name": "Stuart Batty (YouTube)",
     "base_url": "https://youtube.com/@stuartbattyturning",
     "search_url": null,
     "type": "youtube_channel",
     "focus": "woodturning — world-class technique, bowl turning, spindle work"
+  },
+  {
+    "name": "Rex Krueger (YouTube)",
+    "base_url": "https://youtube.com/@RexKrueger",
+    "search_url": null,
+    "type": "youtube_channel",
+    "focus": "hand tools, beginner-friendly techniques, tool fundamentals"
   },
   {
     "name": "TCH Knowledge Base (internal)",
