@@ -14,16 +14,25 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="TCH Ingest Backend")
 
-# Initialize clients
-try:
-    # On Cloud Run, GEMINI_API_KEY should be passed as an env var
-    _genai_client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
-    # GCS uses Application Default Credentials
-    _storage_client = storage.Client()
-    GCS_BUCKET = "tch-knowledge-base-2026"
-    MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
-except Exception as e:
-    logger.error(f"Failed to initialize clients: {e}")
+GCS_BUCKET = "tch-knowledge-base-2026"
+MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
+
+# Lazy-init clients — errors surface at request time, not startup
+_genai_client = None
+_storage_client = None
+
+def _get_genai():
+    global _genai_client
+    if _genai_client is None:
+        _genai_client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+    return _genai_client
+
+def _get_storage():
+    global _storage_client
+    if _storage_client is None:
+        _storage_client = storage.Client()
+    return _storage_client
+
 
 class IngestRequest(BaseModel):
     source_url: str
@@ -113,7 +122,7 @@ def extract_knowledge(req: IngestRequest):
     prompt = f"Extract structured woodworking/woodturning knowledge from this transcript.\n\nTRANSCRIPT:\n{transcript_safe}\n\nReturn a JSON object following the schema exactly."
     
     try:
-        response = _genai_client.models.generate_content(
+        response = _get_genai().models.generate_content(
             model=MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -137,7 +146,7 @@ def extract_knowledge(req: IngestRequest):
         
     # 3. Save to GCS
     try:
-        bucket = _storage_client.bucket(GCS_BUCKET)
+        bucket = _get_storage().bucket(GCS_BUCKET)
         gcs_filename = f"extracts/{video_id}.json"
         blob = bucket.blob(gcs_filename)
         blob.upload_from_string(json.dumps(data, indent=2), content_type="application/json")
