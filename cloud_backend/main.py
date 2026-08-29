@@ -156,4 +156,18 @@ def extract_knowledge(req: IngestRequest):
 
 @app.get("/health")
 def health_check():
-    return {"status": "ok"}
+    return {"status": "ok", "service": "TCH Ingest Backend", "model": MODEL, "gcs_bucket": GCS_BUCKET}
+
+@app.get("/")
+def root():
+    return {
+        "service": "The Cabinet Agentic Suite — Cloud Run Ingest Backend",
+        "status": "ok",
+        "endpoints": {
+            "health": "GET /health",
+            "extract": "POST /extract  — body: {source_url, transcript, video_id}"
+        },
+        "model": MODEL,
+        "built_for": "All Things Agentic Hackathon — Google x Devpost 2026"
+    }
+
