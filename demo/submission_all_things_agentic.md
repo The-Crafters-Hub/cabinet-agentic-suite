@@ -224,7 +224,7 @@ Yes
 ### Hosted project URL (optional)
 
 ```
-[Leave blank — system runs on-premise, not publicly hosted]
+https://tch-ingest-backend-670668988218.us-central1.run.app
 ```
 
 ---
