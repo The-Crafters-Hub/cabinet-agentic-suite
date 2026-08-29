@@ -17,7 +17,7 @@ from typing import Optional
 from dotenv import load_dotenv
 from google import genai
 
-load_dotenv("D:/TheCraftersHub_DataLab/.env")
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 
@@ -106,8 +106,8 @@ def store_knowledge_entry(entry: KnowledgeEntry | dict, embedding: list[float]) 
     Returns:
         New row ID.
     """
-    import sys
-    sys.path.insert(0, "D:/TheCraftersHub_DataLab/agent_agentic_hackathon")
+    import sys, os as _os
+    sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
     from db.connection import get_connection
 
     if isinstance(entry, dict):
@@ -183,8 +183,8 @@ def store_qa_pair(
     Returns:
         New row ID.
     """
-    import sys
-    sys.path.insert(0, "D:/TheCraftersHub_DataLab/agent_agentic_hackathon")
+    import sys, os as _os
+    sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
     from db.connection import get_connection
 
     valid_levels = {"kb_match", "web_source", "synthesized"}

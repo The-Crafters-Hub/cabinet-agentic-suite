@@ -13,7 +13,7 @@ import sys
 import logging
 import asyncio
 
-sys.path.insert(0, "D:/TheCraftersHub_DataLab/agent_agentic_hackathon")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from google.adk.agents import Agent
 from google.adk.tools import FunctionTool
@@ -159,7 +159,7 @@ def run_research_agent(question: str) -> str:
         Agent's final answer as a string.
     """
     from dotenv import load_dotenv
-    load_dotenv("D:/TheCraftersHub_DataLab/.env")
+    load_dotenv()
 
     session_service = InMemorySessionService()
     runner = Runner(

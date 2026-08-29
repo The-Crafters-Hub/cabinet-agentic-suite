@@ -19,10 +19,10 @@ from google.genai import types
 
 # Import KnowledgeEntry from storage (single definition)
 import sys
-sys.path.insert(0, "D:/TheCraftersHub_DataLab/agent_agentic_hackathon")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from agents.tools.storage import KnowledgeEntry
 
-load_dotenv("D:/TheCraftersHub_DataLab/.env")
+load_dotenv()
 logger = logging.getLogger(__name__)
 
 _client: genai.Client | None = None

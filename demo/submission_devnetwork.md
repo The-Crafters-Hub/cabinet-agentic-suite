@@ -5,20 +5,26 @@
 ---
 
 ## Project Name
-**The Cabinet Knowledge API — Stitching 7 APIs into a Self-Reinforcing Craft Intelligence Platform**
+**The Cabinet Knowledge API — Stitching 8 APIs into a Self-Reinforcing Craft Intelligence Platform**
 
 ---
 
 ## Tagline
-One codebase. 7 APIs. Zero new cloud costs. A woodworking school's YouTube lessons become searchable knowledge in 90 seconds — and every answer stores itself back for the next student.
+One codebase. 8 APIs. Zero new cloud costs. A woodworking school's YouTube lessons become searchable knowledge in 90 seconds — and every answer stores itself back for the next student.
 
 ---
 
 ## About the Project
 
-### The API Integration Story
+### Inspiration
 
-The Cabinet Knowledge API connects 7 distinct APIs into a single, production-grade intelligence pipeline for The Crafters Hub — a woodworking school in Cairo, Egypt. No new cloud infrastructure was provisioned. Every API is stitched onto the school's existing on-premise server via a Cloudflare Tunnel.
+We run a woodworking and woodturning school in Cairo. Between managing bookings, tracking finances, and answering student questions on WhatsApp, we were spending less time at the workbench and more time on admin. We had already built *The Cabinet* — an on-premise operations platform — as our internal backbone. But we needed it to think.
+
+Then life dealt us a harder blow. My co-founder Mostafa Fahmy suffered a severe accident and is currently in a coma. Keeping the school running, keeping his craft alive, and giving him something to come back to — that became the fuel for this project.
+
+### What it does
+
+The Cabinet Knowledge API connects 8 distinct APIs into a single, self-reinforcing intelligence pipeline. A woodworking instructor's YouTube lesson becomes structured, searchable knowledge in 90 seconds — and every question a student asks teaches the system to answer faster the next time.
 
 **The 8-API chain:**
 
@@ -53,38 +59,59 @@ YouTube Transcript API
 | **Meta WhatsApp Cloud API** | Finance Sentinel sends approval requests; student answers delivered via WhatsApp | The school already runs on WhatsApp — zero adoption friction |
 | **Google ADK 2.7.1** | Orchestrates 3 autonomous agents with FunctionTool registration and async streaming | Replaces brittle LangChain-style chains with a production-ready agent framework |
 
-### Hybrid Cloud + Edge Architecture
+**The self-reinforcing loop:**
 
-The system makes a deliberate, optimized split between cloud and edge:
-
-**Cloud (Google Cloud Run + GCS + Gemini API):** Knowledge extraction, answer synthesis, embedding generation. A Cloud Run FastAPI service handles the heavy lifting, dumping the structured JSON to Google Cloud Storage.
-
-**Edge (on-premise server):** PostgreSQL + pgvector, Faster-Whisper local transcription, WhatsApp webhook receiver. The local ADK agent reads from GCS and stores it securely locally. Everything that needs persistence runs on the school's own hardware.
-
-**Why this matters:** A school in Cairo cannot absorb $200/month in cloud database costs. Running pgvector on-premise means the entire vector search layer costs $0 in hosting. Faster-Whisper runs on a Quadro P1000 GPU at 5 tokens/second — local video workshops are transcribed for free.
-
-### The Self-Reinforcing Loop
-
-The most important API interaction is the feedback loop between Gemini's generation and pgvector's retrieval:
-
-1. Student asks a question → `gemini-embedding-2` embeds the question (3072 dims)
-2. pgvector searches existing answers → returns top matches by cosine similarity
-3. If score > 0.75: return stored answer. **No Gemini generation call.** Zero cost.
-4. If score < 0.75: Gemini synthesizes answer → `gemini-embedding-2` embeds it → stored back
+1. Student asks a question → `gemini-embedding-2` embeds it (3072 dims)
+2. pgvector searches `teacher_student_knowledge` → returns top match by cosine similarity
+3. If score > 0.75: return stored answer. **No Gemini generation call. Zero cost.**
+4. If score < 0.75: Gemini synthesizes answer → embeds it → stored back to the table
 5. Next identical question: instant retrieval, zero API cost
 
-**Measured result:** The first Stuart Batty video ingested produced a KB hit on the very next research query at `kb_match` confidence — sourced from our database, not Gemini general knowledge.
+**Finance Sentinel — WhatsApp as a human-in-the-loop approval API:**
 
-### Finance Sentinel — WhatsApp as an Approval API
-
-The Finance Sentinel demonstrates a non-standard use of the WhatsApp API: as a **human-in-the-loop approval channel.** When the Sentinel finds an unmatched payment that matches a student enrollment by amount delta (≥60% confidence), it sends:
+When the Sentinel finds an unmatched payment that aligns with a student enrollment (≥60% confidence), it sends:
 
 > *"Reply APPROVE-{id} or REJECT-{id}"*
 
-No database record is modified until Hosam replies. This replaces a spreadsheet review process that previously took 2-3 hours per week.
+No database record is modified until Hosam replies. This replaces a spreadsheet review that previously took 2–3 hours per week.
+
+### How we built it
+
+The architecture makes a deliberate split between cloud and edge:
+
+**Cloud (Google Cloud Run + GCS + Gemini API):** Knowledge extraction, answer synthesis, embedding generation. A Cloud Run FastAPI service handles the heavy lifting, dumping the structured JSON to Google Cloud Storage.
+
+**Edge (on-premise server at the workshop):** PostgreSQL + pgvector, Faster-Whisper local transcription, WhatsApp webhook receiver. The local ADK agent reads from GCS and stores it securely on the school's own hardware.
+
+A school in Cairo cannot absorb $200/month in cloud database costs. Running pgvector on-premise means the entire vector search layer costs $0 in hosting. Faster-Whisper runs on a Quadro P1000 GPU at 5 tokens/second — local video workshops are transcribed for free.
+
+### Challenges we ran into
+
+- **Hybrid cloud/edge coordination:** Getting the Cloud Run service to hand off to a local agent via GCS without a persistent cloud socket required careful state management.
+- **pgvector schema alignment:** Ensuring the 3072-dim `gemini-embedding-2` vectors matched the live `teacher_student_knowledge` column definition exactly — a mismatch would silently corrupt all similarity scores.
+- **WhatsApp as an approval channel:** Meta's Cloud API doesn't have a native "awaiting reply" state — we built the approval handshake entirely in the Finance Sentinel agent logic.
+
+### Accomplishments that we're proud of
+
+- 8 APIs stitched into one coherent pipeline with zero new recurring cloud costs
+- First YouTube video ingested end-to-end in **90 seconds** (transcript → Gemini → embed → DB)
+- Self-reinforcing flywheel verified: `kb_match` on the second research query
+- Finance Sentinel scanning production `finance_transactions` table (READ ONLY, 487 rows) with human approval gate live on WhatsApp
+- 553 production KB entries in the school's pre-existing knowledge base, now queryable by the same agent
+
+### What we learned
+
+The biggest lesson: **the most important API call is the one you don't make.** Building the pgvector retrieval layer as the first gate — before any Gemini call — means the system gets cheaper every day it runs.
+
+### What's next
+
+- **Mass Ingestion of Internal Archives:** Use the Google Cloud credit to run a one-time mass ingestion of our own 3-year backlog of recorded workshop footage and authorized curriculum — permanently embedding hundreds of hours of domain knowledge on our local server at zero recurring cost.
+- **Human-in-the-loop WhatsApp Research:** Wire the Research Agent into our WhatsApp pipeline as a "co-pilot" for instructors. When a student asks a complex question, the Agent will silently draft a fully researched, perfectly formatted response based on the Knowledge Base, allowing the human instructor to review, edit, and send it with one tap.
+- Package The Cabinet as a licensable SaaS for other craft schools in MENA.
 
 ### Live Results (August 24, 2026)
-- 553 production KB entries searchable via pgvector
+- 553 production KB entries in `knowledge_base`
+- `teacher_student_knowledge` table live with 3072-dim pgvector embeddings (hackathon flywheel)
 - First YouTube video ingested in 90 seconds end-to-end (transcript → Gemini → embed → DB)
 - First Q&A flywheel loop completed — `kb_match` on second query
 - Finance Sentinel scanning production `finance_transactions` table (READ ONLY, 487 rows)
@@ -122,7 +149,7 @@ The Cabinet infrastructure — 16 Docker containers, PostgreSQL "Iron Vault" dat
 ---
 
 ## GitHub Repository
-https://github.com/The-Crafters-Hub/the-cabinet/tree/main/agent_agentic_hackathon
+https://github.com/The-Crafters-Hub/cabinet-agentic-suite
 
 ---
 

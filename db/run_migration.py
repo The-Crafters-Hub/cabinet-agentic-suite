@@ -2,7 +2,7 @@
 import os, re, sys
 from dotenv import load_dotenv
 
-load_dotenv("D:/TheCraftersHub_DataLab/.env")
+load_dotenv()
 import psycopg2
 
 user     = os.getenv("POSTGRES_USER", "crafter_admin")
@@ -15,7 +15,7 @@ conn = psycopg2.connect(host=host, port=port, dbname=db, user=user, password=pas
 conn.autocommit = True
 cur = conn.cursor()
 
-sql_path = "D:/TheCraftersHub_DataLab/agent_agentic_hackathon/db/migrations/01_teacher_student_knowledge.sql"
+sql_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "migrations", "01_teacher_student_knowledge.sql")
 sql = open(sql_path).read()
 
 # Execute the whole file at once

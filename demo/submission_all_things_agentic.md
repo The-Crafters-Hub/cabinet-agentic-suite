@@ -1,4 +1,5 @@
 # Devpost Submission — All Things Agentic Hackathon
+
 > Filed in exact form order. Character counts shown per field.
 > Submit at: https://all-things-agentic.devpost.com
 
@@ -8,22 +9,26 @@
 
 ---
 
-### * Project name
+### \* Project name
+
 > Limit: 60 characters
 
 ```
 The Cabinet Agentic Suite
 ```
+
 ✅ 25 characters
 
 ---
 
-### * Elevator pitch
+### \* Elevator pitch
+
 > Limit: 200 characters
 
 ```
 Three autonomous agents that keep a woodworking school's knowledge alive and its books clean — one ingests lessons, one answers questions, one guards the finances.
 ```
+
 ✅ 165 characters
 
 ---
@@ -32,7 +37,8 @@ Three autonomous agents that keep a woodworking school's knowledge alive and its
 
 ---
 
-### * About the project
+### \* About the project
+
 > Markdown. Sections: Inspiration, What it does, How we built it, Challenges, Accomplishments, What we learned, What's next.
 
 ```markdown
@@ -46,7 +52,7 @@ The knowledge built together over years — in lessons, in conversations, in hou
 
 The Cabinet Agentic Suite is a three-agent system built with Google ADK 2.7.1:
 
-**Agent 1 — Lesson Ingest Agent (Hybrid Cloud):** Fetches a YouTube transcript via our Google Cloud Run microservice in under 2 seconds. The Cloud Run service sends it to Gemini 3.6 Flash with a structured output schema, extracts the knowledge (technique, tools, safety, steps), and stores the JSON payload directly into a Google Cloud Storage (GCS) bucket. The local agent then reads the GCS bucket, generates a 3072-dim vector with gemini-embedding-2, and stores it in the on-premise PostgreSQL database.
+**Agent 1 — Lesson Ingest Agent (Hybrid Cloud):** Fetches a YouTube transcript locally (YouTube actively blocks requests from GCP IP ranges), then sends the raw text to our Google Cloud Run microservice. The Cloud Run service uses Gemini 3.6 Flash with a structured output schema to extract structured knowledge (technique, tools, safety, steps), and stores the JSON payload directly into a Google Cloud Storage (GCS) bucket. The local agent then reads the GCS bucket, generates a 3072-dim vector with gemini-embedding-2, and stores it in the on-premise PostgreSQL database.
 
 **Agent 2 — Research & Answer Agent:** Answers woodworking questions from teachers and students. It searches the ingested knowledge base first (pgvector cosine similarity), falls back to pre-approved trusted websites (AAW, Popular Woodworking), then synthesizes using Gemini. Every answer is stored back in the database as a Q&A pair — this is the Knowledge Flywheel. The second time a similar question arrives, it is answered from local storage in milliseconds at zero API cost.
 
@@ -56,7 +62,7 @@ The Cabinet Agentic Suite is a three-agent system built with Google ADK 2.7.1:
 
 - **Google Cloud Run** — Serverless hosting for the AI extraction backend (FastAPI)
 - **Google Cloud Storage** — Bridge storage between the cloud extraction service and the on-premise database
-- **Google ADK 2.7.1** — `Agent` class + `@tool` decorator + `Runner.run_async()` for orchestration
+- **Google ADK 2.7.1** — `Agent` class + `FunctionTool` + `Runner.run_async()` for orchestration
 - **Gemini 3.6 Flash** — structured knowledge extraction (JSON schema output) + answer synthesis
 - **gemini-embedding-2** — 3072-dim vectors for semantic similarity search
 - **PostgreSQL + pgvector** — on-premise vector store, zero hosting cost
@@ -82,21 +88,21 @@ The system uses a true Hybrid Cloud architecture: heavy AI workloads run on Goog
 
 ## What we learned
 
-- ADK 2.7.1's `@tool` decorator with typed Python functions produces clean, Gemini-compatible JSON schema with minimal boilerplate
+- ADK 2.7.1's `FunctionTool` wrapper with typed Python functions produces clean, Gemini-compatible JSON schema with minimal boilerplate — the schema is inferred automatically from the function signature and docstring
 - `gemini-embedding-2` is significantly more capable than `text-embedding-004` but emits 3072-dim vectors — any system assuming 768 dimensions will silently corrupt its vector store
 - The human-in-the-loop pattern via WhatsApp is more practical for a small school than any dashboard approval UI — Hosam is always on his phone, never always at a computer
 
 ## What's next
 
-- Ingest the full Stuart Batty YouTube back-catalogue (~200 videos) to build a comprehensive woodturning knowledge base
-- Add a WhatsApp-facing research endpoint so students can ask questions directly in WhatsApp and get sourced answers
-- Add the Finance Sentinel approval handler (the write side of the loop — currently only the read + alert side is built)
-- Open-source the agent templates as a starter kit for other artisan schools in MENA
+- **Mass Ingestion of Internal Archives:** Use the Google Cloud credit to run a one-time mass ingestion of our own 3-year backlog of recorded workshop footage and authorized curriculum — permanently embedding hundreds of hours of domain knowledge on our local server at zero recurring cost.
+- **Human-in-the-loop WhatsApp Research:** Wire the Research Agent into our WhatsApp pipeline as a "co-pilot" for instructors. When a student asks a complex question, the Agent will silently draft a fully researched, perfectly formatted response based on the Knowledge Base, allowing the human instructor to review, edit, and send it with one tap.
+- Package The Cabinet as a licensable SaaS for other craft schools in MENA.
 ```
 
 ---
 
-### * Built with
+### \* Built with
+
 > Up to 25 tags — enter each as a separate tag
 
 ```
@@ -115,6 +121,7 @@ Meta WhatsApp Cloud API
 psycopg2
 Rich
 ```
+
 ✅ 14 tags
 
 ---
@@ -127,7 +134,8 @@ https://github.com/The-Crafters-Hub/cabinet-agentic-suite
 
 ---
 
-### * Video demo link
+### \* Video demo link
+
 > YouTube, Facebook Video, Vimeo or Youku URL
 
 ```
@@ -142,27 +150,31 @@ https://github.com/The-Crafters-Hub/cabinet-agentic-suite
 
 ### Sponsor / Special Prizes
 ```
-[ ] Startup Excellence  ← skip unless Hosam opts in with corporate email
+[x] Startup Excellence 
+Corporate Email: h.elshanawany@the-crafters-hub.com
 ```
 
 ---
 
-### * Submitter Type
+### \* Submitter Type
 ```
-Individual
+Organization
 ```
-*(or "Organization" if opting in for Startup Prize)*
+
+_(or "Organization" if opting in for Startup Prize)_
 
 ---
 
-### * Submitter country of residence
+### \* Submitter country of residence
+
 ```
 Egypt
 ```
 
 ---
 
-### * Which Category are you submitting to?
+### \* Which Category are you submitting to?
+
 > Check the current category list on the form — select the one matching multi-agent / agentic systems
 
 ```
@@ -171,24 +183,28 @@ Fortified Enterprise Fleet
 
 ---
 
-### * If submitting on behalf of an Organization, what is the Organization name?
+### \* If submitting on behalf of an Organization, what is the Organization name?
+
 ```
 The Crafters Hub
 ```
 
 ---
 
-### * What date did you start this project?
+### \* What date did you start this project?
+
 > Format: MM-DD-YY | Must be within submission period
 
 ```
 08-18-26
 ```
-*(August 18, 2026 — started immediately after submitting the Gemini API XPrize)*
+
+_(August 18, 2026 — started immediately after submitting the Gemini API XPrize)_
 
 ---
 
-### * URL to your public or private code repo
+### \* URL to your public or private code repo
+
 > If private, share with testing@devpost.com and cloudhackathons@google.com
 
 ```
@@ -197,7 +213,8 @@ https://github.com/The-Crafters-Hub/cabinet-agentic-suite
 
 ---
 
-### * Did you add Reproducible Testing instructions to your README?
+### \* Did you add Reproducible Testing instructions to your README?
+
 ```
 Yes
 ```
@@ -205,6 +222,7 @@ Yes
 ---
 
 ### Hosted project URL (optional)
+
 ```
 [Leave blank — system runs on-premise, not publicly hosted]
 ```
@@ -212,6 +230,7 @@ Yes
 ---
 
 ### Testing instructions (judges only, not public)
+
 ```
 See README.md.
 1. git clone repo & cd cabinet-agentic-suite
@@ -223,7 +242,8 @@ See README.md.
 
 ---
 
-### * Which Google SDK did you use?
+### \* Which Google SDK did you use?
+
 ```
 [x] Agent Development Kit (ADK)
 [x] Google GenAI SDK (google-genai)
@@ -231,13 +251,16 @@ See README.md.
 
 ---
 
-### * Which Google Cloud Service(s) did you use?
-> ⚠️ REQUIRED: At least one. 
+### \* Which Google Cloud Service(s) did you use?
+
+> ⚠️ REQUIRED: At least one.
 
 ```
 [x] Cloud Run
+[x] Cloud Storage
 ```
-*(Our extraction backend runs on Cloud Run and uses Cloud Storage)*
+
+_(Our extraction backend runs on Cloud Run and uses Cloud Storage)_
 
 ---
 
@@ -247,7 +270,8 @@ ARCHITECTURE.png (rendered from Mermaid — file in repo root. Upload this file 
 
 ---
 
-### * Which Google AI Models did you use?
+### \* Which Google AI Models did you use?
+
 > Gemini 3.5 or newer is REQUIRED
 
 ```
@@ -258,18 +282,24 @@ gemini-embedding-2 (3072-dim semantic embeddings)
 ---
 
 ### OPTIONAL — Bonus Points: Content piece
+
 ```
-[Leave blank unless Hosam writes a blog post about the project]
+https://www.the-crafters-hub.com/post/brothers-in-chisels-building-ai-to-keep-our-craft-alive
 ```
+
+_(Blog post written for this hackathon — mentions the submission and hackathon explicitly)_
 
 ---
 
 ### OPTIONAL — Bonus Points: Social media post
+
 > Must include #AllThingsAgenticHackathon
 
 ```
-[Optional: post on X or LinkedIn with #AllThingsAgenticHackathon before submitting]
+https://lnkd.in/p/eapXYJ8R
 ```
+
+_(LinkedIn post with #AllThingsAgenticHackathon — confirmed live)_
 
 ---
 

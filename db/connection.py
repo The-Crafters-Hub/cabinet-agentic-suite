@@ -24,10 +24,10 @@ from pgvector.psycopg2 import register_vector
 from dotenv import load_dotenv
 
 # ── Load .env ─────────────────────────────────────────────────────────────────
-# Primary: Cabinet .env (production secrets)
-load_dotenv("D:/TheCraftersHub_DataLab/.env")
-# Secondary: local .env in repo root (overrides nothing by default)
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"), override=False)
+# Primary: local .env in repo root (judges use this after cp .env.example .env)
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
+# Secondary: Cabinet production .env (on-premise server only, no-op on other machines)
+load_dotenv(dotenv_path="D:/TheCraftersHub_DataLab/.env", override=False)
 
 logger = logging.getLogger(__name__)
 

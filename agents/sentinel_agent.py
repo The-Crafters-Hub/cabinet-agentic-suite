@@ -15,7 +15,7 @@ import logging
 import asyncio
 import json
 
-sys.path.insert(0, "D:/TheCraftersHub_DataLab/agent_agentic_hackathon")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from google.adk.agents import Agent
 from google.adk.tools import FunctionTool
@@ -47,7 +47,7 @@ def tool_scan_unmatched_transactions(days_back: int = 7) -> dict:
     sql = """
         SELECT
             ft.id,
-            COALESCE(ft.income_receivable, ft.income_cash, ft.income_bank, 0) AS amount,
+            COALESCE(NULLIF(ft.income_receivable,0), NULLIF(ft.income_cash,0), NULLIF(ft.income_bank,0), 0) AS amount,
             ft.transaction_date::text AS date,
             ft.description,
             ft.category,
@@ -57,8 +57,8 @@ def tool_scan_unmatched_transactions(days_back: int = 7) -> dict:
         WHERE
             ft.transaction_date >= NOW() - INTERVAL '1 day' * %(days_back)s
             AND ft.registration_id IS NULL
-            AND ft.flow_direction = 'income'
-            AND COALESCE(ft.income_receivable, ft.income_cash, ft.income_bank, 0) > 0
+            AND ft.flow_direction = 'IN'
+            AND COALESCE(NULLIF(ft.income_receivable,0), NULLIF(ft.income_cash,0), NULLIF(ft.income_bank,0), 0) > 0
         ORDER BY ft.transaction_date DESC
         LIMIT 20
     """
@@ -93,7 +93,7 @@ def tool_scan_unmatched_transactions(days_back: int = 7) -> dict:
 def tool_find_best_student_match(transaction_id: int, amount: float, description: str) -> dict:
     """
     Find the best matching student record for an unmatched transaction.
-    READ-ONLY search across students and enrollments.
+    READ-ONLY search across students and registrations.
 
     Args:
         transaction_id: ID of the transaction to match.
@@ -102,25 +102,24 @@ def tool_find_best_student_match(transaction_id: int, amount: float, description
 
     Returns:
         dict with 'match_found' (bool), 'student_id', 'student_name',
-        'course_name', 'expected_amount', 'confidence_pct'.
+        'service_id', 'amount_paid', 'confidence_pct'.
     """
     from db.connection import get_connection
 
-    # Find student registrations where course fee isn't fully paid
+    # Find student registrations where amount_paid is close to the transaction amount
     sql = """
         SELECT
             s.id          AS student_id,
             s.full_name   AS student_name,
-            c.name        AS course_name,
-            e.total_price AS expected_amount,
-            e.paid_amount,
-            ABS(e.total_price - COALESCE(e.paid_amount, 0) - %(amount)s) AS delta
+            r.service_id  AS service_id,
+            r.amount_paid AS amount_paid,
+            r.status      AS status,
+            ABS(r.amount_paid - %(amount)s) AS delta
         FROM students s
-        JOIN enrollments e ON e.student_id = s.id
-        JOIN courses c     ON c.id = e.course_id
+        JOIN registrations r ON r.student_id = s.id
         WHERE
-            ABS(e.total_price - COALESCE(e.paid_amount, 0) - %(amount)s) < 500
-            AND e.status IN ('active', 'pending')
+            ABS(r.amount_paid - %(amount)s) < 500
+            AND (r.status IN ('CONFIRMED', 'confirmed', 'PENDING', 'pending', 'active', 'CREATED') OR r.status IS NULL)
         ORDER BY delta ASC
         LIMIT 1
     """
@@ -138,17 +137,18 @@ def tool_find_best_student_match(transaction_id: int, amount: float, description
                         "match_found":     True,
                         "student_id":      row[0],
                         "student_name":    row[1],
-                        "course_name":     row[2],
+                        "course_name":     f"Service #{row[2]}",
                         "expected_amount": float(row[3]),
                         "confidence_pct":  confidence_pct,
                         "transaction_id":  transaction_id,
-                        "db_description":  f"{row[1]} — {row[2]}",
+                        "db_description":  f"{row[1]} — Service #{row[2]}",
                     }
     except Exception as e:
         logger.error(f"find_best_student_match error: {e}")
         return {"match_found": False, "error": str(e)}
 
     return {"match_found": False, "transaction_id": transaction_id}
+
 
 
 def tool_request_hosam_approval(match_data_json: str) -> dict:
@@ -262,7 +262,7 @@ def run_sentinel_agent(days_back: int = 7) -> str:
         Agent's final summary as a string.
     """
     from dotenv import load_dotenv
-    load_dotenv("D:/TheCraftersHub_DataLab/.env")
+    load_dotenv()
 
     session_service = InMemorySessionService()
     runner = Runner(

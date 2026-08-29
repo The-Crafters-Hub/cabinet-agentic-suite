@@ -14,7 +14,7 @@ import logging
 import requests
 from dotenv import load_dotenv
 
-load_dotenv("D:/TheCraftersHub_DataLab/.env")
+load_dotenv()
 
 logger = logging.getLogger(__name__)
 

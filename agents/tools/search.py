@@ -13,7 +13,7 @@ Public functions:
 import logging
 import sys
 
-sys.path.insert(0, "D:/TheCraftersHub_DataLab/agent_agentic_hackathon")
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 logger = logging.getLogger(__name__)
 
